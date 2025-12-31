@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Cancer Classification - AI Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin: 30px auto;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .upload-area {
+            border: 3px dashed var(--secondary-color);
+            border-radius: 15px;
+            padding: 60px 20px;
+            text-align: center;
+            background: rgba(52, 152, 219, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .upload-area.dragover {
+            background: rgba(52, 152, 219, 0.3);
+            border-color: var(--primary-color);
+        }
+        
+        .result-card {
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .cancer-result {
+            border-left: 5px solid var(--danger-color);
+        }
+        
+        .non-cancer-result {
+            border-left: 5px solid var(--success-color);
+        }
+        
+        .confidence-bar {
+            height: 25px;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #1dd1a1);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            background: var(--secondary-color);
+            transition: width 1s ease-in-out;
+        }
+        
+        .class-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 5px;
+        }
+        
+        .high-risk { background: #ff6b6b; color: white; }
+        .medium-risk { background: #feca57; color: #333; }
+        .low-risk { background: #1dd1a1; color: white; }
+        
+        .prediction-item {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: transform 0.2s;
+        }
+        
+        .prediction-item:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+        
+        .model-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .academic-badge {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .loading-spinner {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+        
+        .footer-info {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container main-container">
+        <!-- Header -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold" style="color: var(--primary-color);">
+                <i class="fas fa-user-md me-3"></i>AI Skin Cancer Classifier
+            </h1>
+            <p class="lead text-muted">
+                Multi-Class Skin Cancer Classification - Research Paper Implementation
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <div class="academic-badge">
+                    <i class="fas fa-graduation-cap me-2"></i>
+                    Multimedia Assignment - Fall 2025
+                </div>
+                <div class="model-badge">
+                    <i class="fas fa-robot me-2"></i>
+                    Student: Melika Sadegh
+                </div>
+                <div class="model-badge">
+                    <i class="fas fa-brain me-2"></i>
+                    Model: {{ model_info.type }} | Accuracy: {{ (model_info.accuracy * 100)|round(2) }}%
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Upload Section -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-upload me-2"></i>Upload Skin Image</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="uploadArea" class="upload-area">
+                            <i class="fas fa-cloud-upload-alt fa-4x mb-3" style="color: var(--secondary-color);"></i>
+                            <h5>Drag & Drop Image Here</h5>
+                            <p class="text-muted">or click to browse</p>
+                            <input type="file" id="fileInput" accept="image/*" class="d-none">
+                            <button class="btn btn-primary btn-lg mt-3" onclick="document.getElementById('fileInput').click()">
+                                <i class="fas fa-folder-open me-2"></i>Browse Files
+                            </button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <h6><i class="fas fa-info-circle me-2"></i>Requirements:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success me-2"></i>Clear image of skin lesion</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Supported formats: JPG, PNG, BMP</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Max size: 16MB</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Good lighting conditions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image Preview -->
+                <div class="card shadow-sm mt-4">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-image me-2"></i>Image Preview</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img id="imagePreview" class="image-preview" src="" alt="Preview" style="display: none;">
+                        <p id="noPreviewText" class="text-muted">No image selected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Analysis Results</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Loading Spinner -->
+                        <div id="loadingSpinner" class="loading-spinner"></div>
+                        
+                        <!-- Results Container -->
+                        <div id="resultsContainer" style="display: none;">
+                            <!-- Main Result -->
+                            <div id="mainResult" class="result-card">
+                                <h4 id="resultTitle" class="mb-3"></h4>
+                                <div class="row align-items-center mb-3">
+                                    <div class="col-md-8">
+                                        <div class="d-flex align-items-center">
+                                            <h5 id="className" class="mb-0 me-3"></h5>
+                                            <span id="riskBadge" class="class-badge"></span>
+                                        </div>
+                                        <p id="classDescription" class="text-muted mb-2"></p>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <h2 id="confidenceScore" class="fw-bold"></h2>
+                                        <small class="text-muted">Confidence</small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Confidence Bar -->
+                                <div class="mb-3">
+                                    <div class="confidence-bar">
+                                        <div id="confidenceFill" class="confidence-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <small>0%</small>
+                                        <small>50%</small>
+                                        <small>100%</small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recommendation -->
+                                <div class="alert" id="recommendationAlert">
+                                    <h6><i class="fas fa-stethoscope me-2"></i>Recommendation:</h6>
+                                    <p id="recommendationText" class="mb-0"></p>
+                                </div>
+                            </div>
+                            
+                            <!-- All Predictions -->
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-secondary text-white">
+                                    <h5 class="mb-0"><i class="fas fa-list-ol me-2"></i>Top Predictions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="allPredictions"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Paper & Academic Info -->
+                            <div class="mt-3">
+                                <div class="alert alert-info">
+                                    <h6><i class="fas fa-file-alt me-2"></i>Research Paper</h6>
+                                    <p class="mb-1">
+                                        <strong>Title:</strong> Multi-Class Skin Cancer Classification Using Vision Transformer Networks
+                                        and Convolutional Neural Network-Based Pre-Trained Models
+                                    </p>
+                                    <p class="mb-1">
+                                        <strong>Authors:</strong> Arshed et al. | <strong>Published:</strong> Information 2023
+                                    </p>
+                                    <p class="mb-0">
+                                        <strong>Paper Accuracy:</strong> 92.14% | 
+                                        <strong>Our Implementation:</strong> <span id="paperComparison"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Model Info -->
+                            <div class="mt-3 text-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-robot me-1"></i>
+                                    Powered by {{ model_info.type }} | 
+                                    Student: Melika Sadegh |
+                                    Course: Multimedia Fall 2025 |
+                                    <span id="timestamp"></span>
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <!-- Empty State -->
+                        <div id="emptyState" class="text-center py-5">
+                            <i class="fas fa-microscope fa-3x mb-3 text-muted"></i>
+                            <h5 class="text-muted">No Analysis Yet</h5>
+                            <p class="text-muted">Upload a skin image to get AI-powered analysis</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Info Panel -->
+                <div class="card shadow-sm mt-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Important Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Disclaimer:</strong> This tool provides AI-based predictions only. 
+                            It is not a substitute for professional medical diagnosis. 
+                            Always consult a qualified healthcare provider for accurate diagnosis.
+                        </div>
+                        <div class="alert alert-primary">
+                            <i class="fas fa-graduation-cap me-2"></i>
+                            <strong>Academic Project:</strong> This implementation is part of Multimedia Systems course
+                            (Fall 2025) by Melika Sadegh, based on the research paper by Arshed et al.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-5 pt-4 border-top text-center">
+            <div class="footer-info">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <h6><i class="fas fa-user-graduate me-2"></i>Student</h6>
+                        <p class="mb-0">Melika Sadegh</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <h6><i class="fas fa-book me-2"></i>Course</h6>
+                        <p class="mb-0">Multimedia Systems</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <h6><i class="fas fa-calendar me-2"></i>Semester</h6>
+                        <p class="mb-0">Fall 2025</p>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <h6><i class="fas fa-file-alt me-2"></i>Paper</h6>
+                        <p class="mb-0">Arshed et al. (2023)</p>
+                    </div>
+                </div>
+                <p class="mt-3 mb-0">
+                    <i class="fas fa-laptop-code me-1"></i>
+                    Research Paper Implementation | 
+                    <a href="/about" class="text-white text-decoration-underline">About This Project</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Elements
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const noPreviewText = document.getElementById('noPreviewText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const emptyState = document.getElementById('emptyState');
+        
+        // Drag and Drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+        
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+        
+        // Handle file selection
+        function handleFileSelect(file) {
+            // Validate file
+            const validTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a valid image file (JPEG, PNG, BMP, GIF)');
+                return;
+            }
+            
+            if (file.size > 16 * 1024 * 1024) {
+                alert('File size must be less than 16MB');
+                return;
+            }
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                noPreviewText.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+            
+            // Upload and analyze
+            uploadAndAnalyze(file);
+        }
+        
+        // Upload and analyze image
+        async function uploadAndAnalyze(file) {
+            // Show loading
+            loadingSpinner.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            emptyState.style.display = 'none';
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            try {
+                // Send to server
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Hide loading
+                    loadingSpinner.style.display = 'none';
+                    
+                    // Show results
+                    displayResults(result);
+                } else {
+                    throw new Error(result.error || 'Analysis failed');
+                }
+            } catch (error) {
+                loadingSpinner.style.display = 'none';
+                emptyState.style.display = 'block';
+                alert('Error: ' + error.message);
+            }
+        }
+        
+        // Display results
+        function displayResults(result) {
+            // Update main result
+            const isCancer = result.is_cancer;
+            const mainClass = result.main_class;
+            const confidence = result.main_confidence;
+            const paperAccuracy = 92.14; // از مقاله
+            
+            // Update title
+            document.getElementById('resultTitle').innerHTML = 
+                isCancer ? 
+                '<i class="fas fa-exclamation-triangle text-danger me-2"></i>Potential Cancer Detected' :
+                '<i class="fas fa-check-circle text-success me-2"></i>No Cancer Detected';
+            
+            // Update class info
+            document.getElementById('className').textContent = mainClass.toUpperCase();
+            document.getElementById('classDescription').textContent = result.main_description;
+            
+            // Update risk badge
+            const riskBadge = document.getElementById('riskBadge');
+            riskBadge.textContent = result.risk_level;
+            riskBadge.className = 'class-badge ' + 
+                (result.risk_level.includes('High') ? 'high-risk' :
+                 result.risk_level.includes('Medium') ? 'medium-risk' : 'low-risk');
+            
+            // Update confidence
+            document.getElementById('confidenceScore').textContent = confidence.toFixed(1) + '%';
+            document.getElementById('confidenceScore').style.color = 
+                confidence > 90 ? '#2ecc71' : 
+                confidence > 70 ? '#f39c12' : '#e74c3c';
+            
+            // Animate confidence bar
+            setTimeout(() => {
+                document.getElementById('confidenceFill').style.width = confidence + '%';
+            }, 100);
+            
+            // Update recommendation
+            const alert = document.getElementById('recommendationAlert');
+            alert.className = 'alert ' + 
+                (isCancer ? 'alert-danger' : 'alert-success');
+            document.getElementById('recommendationText').textContent = result.recommendation;
+            
+            // Update paper comparison
+            const diff = Math.abs(confidence - paperAccuracy);
+            const comparisonText = confidence > paperAccuracy ? 
+                `+${(confidence - paperAccuracy).toFixed(2)}% better` :
+                `${(paperAccuracy - confidence).toFixed(2)}% lower`;
+            document.getElementById('paperComparison').textContent = 
+                `${confidence.toFixed(2)}% (${comparisonText})`;
+            
+            // Update all predictions
+            const allPredictionsDiv = document.getElementById('allPredictions');
+            allPredictionsDiv.innerHTML = '';
+            
+            result.all_predictions.forEach((pred, index) => {
+                const item = document.createElement('div');
+                item.className = 'prediction-item';
+                item.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge ${pred.risk_level.includes('High') ? 'bg-danger' : 
+                                pred.risk_level.includes('Medium') ? 'bg-warning' : 'bg-success'} me-2">
+                                #${index + 1}
+                            </span>
+                            <strong>${pred.class.toUpperCase()}</strong>: ${pred.description}
+                            <br>
+                            <small class="text-muted">Risk: ${pred.risk_level}</small>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="mb-0">${pred.confidence.toFixed(1)}%</h5>
+                        </div>
+                    </div>
+                `;
+                allPredictionsDiv.appendChild(item);
+            });
+            
+            // Update timestamp
+            document.getElementById('timestamp').textContent = 
+                'Analyzed: ' + new Date().toLocaleString();
+            
+            // Show results
+            resultsContainer.style.display = 'block';
+            emptyState.style.display = 'none';
+            
+            // Scroll to results
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for previous prediction
+            fetch('/history')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.main_class) {
+                        displayResults(data);
+                        if (data.image_url) {
+                            imagePreview.src = data.image_url;
+                            imagePreview.style.display = 'block';
+                            noPreviewText.style.display = 'none';
+                        }
+                    }
+                });
+        });
+    </script>
+</body>
+</html>

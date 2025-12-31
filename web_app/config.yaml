@@ -1,0 +1,52 @@
+app:
+  name: "Skin Cancer Classifier"
+  version: "1.0.0"
+  debug: true
+  
+model:
+  name: "ResNet18"
+  input_size: [224, 224]
+  num_classes: 7
+  pretrained: false
+  
+classes:
+  - name: "akiec"
+    description: "Actinic Keratoses"
+    risk: "High"
+    is_cancer: true
+    
+  - name: "bcc"
+    description: "Basal Cell Carcinoma"
+    risk: "High"
+    is_cancer: true
+    
+  - name: "bkl"
+    description: "Benign Keratosis"
+    risk: "Low"
+    is_cancer: false
+    
+  - name: "df"
+    description: "Dermatofibroma"
+    risk: "Very Low"
+    is_cancer: false
+    
+  - name: "mel"
+    description: "Melanoma"
+    risk: "Very High"
+    is_cancer: true
+    
+  - name: "nv"
+    description: "Melanocytic Nevus"
+    risk: "Very Low"
+    is_cancer: false
+    
+  - name: "vasc"
+    description: "Vascular Lesion"
+    risk: "Medium"
+    is_cancer: false
+
+web:
+  upload_folder: "static/uploads"
+  max_file_size: 16MB
+  allowed_extensions: [".jpg", ".jpeg", ".png", ".bmp", ".gif"]
+

@@ -1,0 +1,191 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Dataset files (large files)
+data/
+!data/README.md
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.pickle
+
+# Model files (large files)
+models/
+!models/README.md
+*.pth
+*.pt
+*.bin
+*.onnx
+
+# Results and outputs
+results/plots/
+results/reports/
+!results/README.md
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*_temp
+temp/
+
+# Config files with secrets
+config_secret.py
+secrets.py
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Web app uploads
+web_app/static/uploads/
+web_app/static/predictions/
+
+# Database
+*.db
+*.sqlite3
+
+# Package files
+*.tar.gz
+*.whl
+
+# Profiling data
+*.prof
+*.line_prof
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# PyTest
+.pytest_cache/
+.cache/
+.mypy_cache/
+
+# Documentation
+docs/_build/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Heroku
+.slugignore
+
+# MLflow
+mlruns/
+
+# DVC
+.dvc/
+.dvcignore
+
+# VS Code
+.vscode/settings.json
+.vscode/launch.json
+
+# PyCharm
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/azureSettings.xml
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Virtual environment
+venv/
+env/
+
+# System files
+desktop.ini
+
+# Project specific
+checkpoint_*.pth
+*.pth
+*.pt
+best_model.pth
+training_log.txt
+
+# Kaggle API
+kaggle.json
+
+# Jupyter
+.ipynb_checkpoints
+
+# Temp files from training
+*.checkpoint
+training_checkpoints/
+
+# Large training logs
+training_logs/
+
+# Exceptions
+!data/example_images/
+!models/example_model.pth
+!results/example_plots/
+
+
+static/

@@ -1,0 +1,67 @@
+# Core
+torch==2.0.1
+torchvision==0.15.2
+tensorflow==2.12.0
+numpy==1.24.3
+pandas==2.0.1
+scikit-learn==1.3.0
+
+# Image Processing
+opencv-python==4.8.0.74
+Pillow==10.0.0
+albumentations==1.3.0
+imageio==2.31.1
+
+# Web Framework
+Flask==2.3.3
+Flask-CORS==4.0.0
+gunicorn==21.2.0
+Werkzeug==2.3.7
+Jinja2==3.1.2
+
+# Utilities
+tqdm==4.65.0
+matplotlib==3.7.2
+seaborn==0.12.2
+plotly==5.15.0
+PyYAML==6.0
+einops==0.6.1
+
+# Medical AI Specific
+imbalanced-learn==0.10.1
+scipy==1.10.1
+
+# Development
+jupyter==1.0.0
+notebook==6.5.4
+ipykernel==6.24.0
+
+
+Flask==2.3.3
+Flask-CORS==4.0.0
+torch==2.0.1
+torchvision==0.15.2
+Pillow==10.0.0
+numpy==1.24.3
+opencv-python-headless==4.8.0.74
+gunicorn==21.2.0
+waitress==2.1.2
+python-dotenv==1.0.0
+
+opencv-python-headless
+PyYAML
+
+torch
+torchvision
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+tqdm
+albumentations
+einops
+timmpip
+opencv-python
+Pillow
+pyyaml
