@@ -43,10 +43,11 @@ Download Image Samples: [skin_cancer_samples.zip](https://drive.google.com/drive
 - [🧠 Model Architecture](#-model-architecture)
 - [✨ Key Features](#-key-features)
 - [📥 Installation & Setup](#-installation--setup)
-- [🏃 Project Usage](#-projectusage)
+- [🏃 Project Usage](#-project-usage)
 - [📊 Results & Analysis](#-results--analysis)
 - [🔬 Technical Deep Dive](#-technical-deep-dive)
 - [🚀 Project Demo ](#-project-demo)
+- [📁 Repository Structure](#-project-demo)
 - [🏆 Achievements & Impact](#-achievements--impact)
 - [🙏 Acknowledgments](#-acknowledgments)
 - [📬 Contact](#-contact)
@@ -155,10 +156,11 @@ pip install -r requirements.txt
 ```bash
 kaggle datasets download -d kmader/skin-cancer-mnist-ham10000
 unzip skin-cancer-mnist-ham10000.zip -d data/
-```پ
+```
+
 ---
 
-##  Project Usage  
+##  🏃 Project Usage  
 ### Model Training / آموزش مدل
 ```bash
 python train.py --model vit --epochs 50 --batch-size 32 --lr 1e-3 --use-augmentation
@@ -234,6 +236,56 @@ python app.py
 
 ![Class Distribution](https://github.com/user-attachments/assets/fc8151f3-dae2-43d8-9594-912223dd51fb)
 
+---
+
+## 📁Repository Structure
+
+```
+skin-cancer-classification/
+│
+├── 📄 README.md                   # مستندات اصلی پروژه
+├── 📄 LICENSE                     # مجوز MIT
+├── 📄 requirements.txt            # نیازمندی‌های پایتون
+├── 📄 setup.py                    # فایل نصب پکیج
+├── 📓 model_training.ipynb        # 📌 مهم‌ترین فایل: پیاده‌سازی کامل مقاله در محیط Jupyter
+├── 📄 train_final.py              # اسکریپت نهایی آموزش مدل
+├── 📄 .gitignore                  # فایل‌های نادیده گرفته شده توسط Git
+│
+├── 📁 article/                    # مقاله مرجع و منابع تحقیق
+│   └── [مقالات مرتبط]
+│
+├── 📁 results/                    # نتایج، نمودارها و گزارش‌های آزمایش‌ها
+│   ├── confusion_matrix.png
+│   ├── per_class_accuracy.png
+│   ├── class_distribution.png
+│   └── training_curves.png
+│
+├── 📁 scripts/                    # اسکریپت‌های آموزش و ارزیابی مدل
+│   ├── train_model.py            # آموزش مدل
+│   ├── evaluate_model.py         # ارزیابی عملکرد
+│   ├── prepare_dataset.py        # آماده‌سازی داده‌ها
+│   └── convert_model_for_web.py  # تبدیل مدل برای وب
+│
+├── 📁 src/                        # ماژول‌های اصلی و کدهای کمکی
+│   ├── __init__.py
+│   ├── models/                   # تعاریف مدل‌های ViT و CNN
+│   ├── data/                    # پردازش داده و augmentation
+│   ├── utils/                   # توابع کمکی
+│   └── inference.py             # پیش‌بینی روی تصاویر جدید
+│
+├── 📁 web_app/                    # بک‌اند و فرانت‌اند برنامه تحت وب
+    ├── 📄 app.py                 # سرور Flask اصلی
+    ├── 📄 config.yaml            # تنظیمات پیکربندی
+    ├── 📄 model_loader.py        # بارگذاری مدل آموزش‌دیده
+    ├── 📄 predict.py             # منطق پیش‌بینی
+    ├── 📄 analyze_model.py       # تحلیل و تفسیر مدل
+    ├── 📄 test_simple.py         # تست‌های ساده
+    │
+    └── 📁 templates/             # فایل‌های HTML فرانت‌اند
+        ├── index.html           # صفحه اصلی
+        ├── upload.html          # آپلود تصویر
+        └── results.html         # نمایش نتایج
+```
 ---
 
 ## 🏆 Achievements & Impact    
