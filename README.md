@@ -72,6 +72,7 @@ This implementation faithfully reproduces the core methodology while optimizing 
 ---
 
 ## 📋 Project Context 
+**University:** Islamic Azad University, Science and Research Branch, Tehran | دانشگاه آزاد اسلامی واحد علوم و تحقیقات
 **Course:** Multimedia Communications | ارتباطات چندرسانه‌ای  
 **Term:** Fall 1404 (2025–2026) | پاییز ۱۴۰۴  
 **Supervisor:** Professor Mehdi Eslami | استاد مهدی اسلامی  
