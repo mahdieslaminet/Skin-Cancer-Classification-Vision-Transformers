@@ -19,7 +19,7 @@
 - A comprehensive walkthrough covering motivation, research inspiration, implementation details, training pipeline, results analysis, and future directions.  
 ارائه جامع شامل انگیزه پروژه، الهام تحقیقاتی، جزئیات پیاده‌سازی، فرآیند آموزش، تحلیل نتایج و جهت‌گیری‌های آینده
 
-👉 **[Watch Video Presentation (Google Drive) | مشاهده ویدیو در گوگل درایو](https://drive.google.com/your-video-link-here)**
+👉 **[Watch Video Presentation (Google Drive) | مشاهده ویدیو در گوگل درایو](https://drive.google.com/file/d/11_I1zI7hfMV15kl8CQEm5-ATG1ROutKq/view?usp=sharing)**
 
 ---
 ## 📁 Trained Model
